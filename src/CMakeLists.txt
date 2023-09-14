@@ -13,6 +13,7 @@ add_executable(${EXE_NAME} ${SOURCES})
 # ================= INCLUDES =================
 target_include_directories(${EXE_NAME} PUBLIC 
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_BINARY_DIR}/include
 )
 # =============================================
 
