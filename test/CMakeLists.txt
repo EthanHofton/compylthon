@@ -18,6 +18,7 @@ target_link_libraries(GTest::GTest INTERFACE gtest_main)
 # 3. add test
 # add_test(NAME example_gtests COMMAND example_test WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
-# add_executable(test_parse test_parse.cpp)
-# target_link_libraries(test_parse PRIVATE GTest::GTest lrp)
-# add_test(NAME test_parse_gtest COMMAND test_parse WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_executable(test_lexer test_lexer.cpp ${CMAKE_SOURCE_DIR}/src/lexer.cpp)
+target_link_libraries(test_lexer PRIVATE GTest::GTest)
+target_include_directories(test_lexer PRIVATE ${CMAKE_SOURCE_DIR}/include)
+add_test(NAME test_lexer_gtest COMMAND test_lexer WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
