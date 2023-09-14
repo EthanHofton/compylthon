@@ -31,6 +31,7 @@ option(CPY_TEST "Build tests" ON)
 if(CPY_TEST)
     enable_testing()
     add_subdirectory(test)
+endif()
 
 add_subdirectory(res)
 
