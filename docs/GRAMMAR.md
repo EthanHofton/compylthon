@@ -1,4 +1,4 @@
-## Python CFG (Context Free Grammar)
+## Target Python CFG (Context Free Grammar)
 
 $$
 \begin{align}
@@ -65,4 +65,9 @@ $$
 \text{<assignment>} & \to \text{<identifier>} = \text{<expression>} \\
 
 \end{align}
+$$
+
+## Current CFG
+
+$$
 $$
