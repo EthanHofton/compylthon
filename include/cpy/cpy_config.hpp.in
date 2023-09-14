@@ -1,0 +1,3 @@
+#define cpy_VERSION_MAJOR @cpy_VERSION_MAJOR@
+#define cpy_VERSION_MINOR @cpy_VERSION_MINOR@
+#define cpy_VERSION_PATCH @cpy_VERSION_PATCH@
