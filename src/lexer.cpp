@@ -13,7 +13,7 @@ std::vector<token> lexer::tokenize() {
 
     std::string buf;
     while (peek().has_value()) {
-        if (std::isalpha(peek().value())) {
+        if (std::isalpha(peek().value()) || peek().value() == '_') {
             // keyword or identifier
             tokens.push_back(parse_keyword_or_identifer_literal(buf));
             continue;
@@ -27,14 +27,44 @@ std::vector<token> lexer::tokenize() {
             continue;
         } else if (peek().value() == '=') {
             // assignment
-            consume();
             tokens.push_back({ token_type::ASSIGN, m_line_num, m_line_offset });
+            consume();
+            continue;
+        } else if (peek().value() == '(') {
+            // left bracket
+            tokens.push_back({ token_type::LEFT_PARENTHASIS, m_line_num, m_line_offset });
+            consume();
+            continue;
+        } else if (peek().value() == ')') {
+            // right bracket
+            tokens.push_back({ token_type::RIGHT_PARENTHASIS, m_line_num, m_line_offset });
+            consume();
+            continue;
+        } else if (peek().value() == '}') {
+            // right curly bracket
+            tokens.push_back({ token_type::RIGHT_CURLY_PARENTHASIS, m_line_num, m_line_offset });
+            consume();
+            continue;
+        } else if (peek().value() == '{') {
+            // left curly bracket
+            tokens.push_back({ token_type::LEFT_CURLY_PARENTHASIS, m_line_num, m_line_offset });
+            consume();
+            continue;
+        } else if (peek().value() == ',') {
+            // right comma
+            tokens.push_back({ token_type::COMMA, m_line_num, m_line_offset });
+            consume();
+            continue;
+        } else if (peek().value() == ';') {
+            // semi colon 
+            tokens.push_back({ token_type::SEMI_COLON, m_line_num, m_line_offset });
+            consume();
             continue;
         } else if (peek().value() == '\n') {
             // newline
+            consume();
             m_line_num++;
             m_line_offset = 0;
-            consume();
             continue;
         } else if (std::isspace(peek().value())) {
             // whitespace
@@ -42,8 +72,7 @@ std::vector<token> lexer::tokenize() {
             continue;
         } else {
             // unknown
-            // TODO: add to list of errors, for now just print to cerr and cosume
-            std::cerr << "Unknown token: " << peek().value() << " at line " << m_line_num << ":"<< m_line_offset << std::endl;
+            m_error_handler.add_error(m_line_num, m_line_offset, error_code::E004);
             consume();
             continue;
         }
@@ -51,6 +80,7 @@ std::vector<token> lexer::tokenize() {
 
     tokens.push_back({ token_type::END_OF_FILE, m_line_num, m_line_offset });
 
+    // reset lexer
     m_line_num = 0;
     m_line_offset = 0;
     m_pos = 0;
@@ -59,15 +89,29 @@ std::vector<token> lexer::tokenize() {
 }
 
 token lexer::parse_keyword_or_identifer_literal(std::string& buf) {
+    m_token_start_line_num = m_line_num;
+    m_token_start_line_offset = m_line_offset; 
+
     std::optional<std::string> val;
     token_type type;
 
-    while (peek().has_value() && std::isalnum(peek().value())) {
+    // check for underscore aswell for identifier
+    while (peek().has_value() && (std::isalnum(peek().value()) || peek().value() == '_')) {
         buf += consume().value();
     }
 
     // check for keywords
-    if (buf == "true" || buf == "false") {
+    if (buf == "if") {
+        type = token_type::IF;
+    } else if (buf == "else") {
+        type = token_type::ELSE;
+    } else if (buf == "while") {
+        type = token_type::WHILE;
+    } else if (buf == "for") {
+        type = token_type::FOR;
+    } else if (buf == "in") {
+        type = token_type::IN;
+    } else if (buf == "true" || buf == "false") {
         type = token_type::BOOLEAN_LITERAL;
         val = buf;
     } else {
@@ -75,12 +119,15 @@ token lexer::parse_keyword_or_identifer_literal(std::string& buf) {
         val = buf;
     }
 
-    token t = { type, m_line_num, m_line_offset, val };
+    token t = { type, m_token_start_line_num, m_token_start_line_offset, val };
     buf.clear();
     return t;
 }
 
 token lexer::parse_number_literal(std::string& buf) {
+    m_token_start_line_num = m_line_num;
+    m_token_start_line_offset = m_line_offset; 
+
     // integer literal or float literal
     while (peek().has_value() && std::isdigit(peek().value())) {
         buf += consume().value();
@@ -97,17 +144,20 @@ token lexer::parse_number_literal(std::string& buf) {
         }
 
         buf += fract;
-        token t = { token_type::FLOAT_LITERAL, m_line_num, m_line_offset, buf };
+        token t = { token_type::FLOAT_LITERAL, m_token_start_line_num, m_token_start_line_offset, buf };
         buf.clear();
         return t;
     }
 
-    token t = { token_type::INTEGER_LITERAL, m_line_num, m_line_offset, buf };
+    token t = { token_type::INTEGER_LITERAL, m_token_start_line_num, m_token_start_line_offset, buf };
     buf.clear();
     return t;
 }
 
 token lexer::parse_string_literal(std::string& buf) {
+    m_token_start_line_num = m_line_num;
+    m_token_start_line_offset = m_line_offset; 
+
     consume();
     while (peek().has_value() && peek().value() != '"') {
         if (peek().value() == '\\') {
@@ -144,15 +194,14 @@ token lexer::parse_string_literal(std::string& buf) {
     }
 
     if (!peek().has_value()) {
-        // TODO: add to list of errors, for now just print to cerr and cosume
         // unterminated string literal
-        std::cerr << "Unterminated string literal at line " << m_line_num << ":"<< m_line_offset << std::endl;
+        m_error_handler.add_error(m_line_num, m_line_offset, error_code::E005);
     }
 
     // consume closing quote 
     consume();
 
-    token t = { token_type::STRING_LITERAL, m_line_num, m_line_offset, buf };
+    token t = { token_type::STRING_LITERAL, m_token_start_line_num, m_token_start_line_offset, buf };
     buf.clear();
     return t;
 }

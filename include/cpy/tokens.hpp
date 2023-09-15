@@ -10,20 +10,58 @@ namespace cpy
 enum class token_type
 {
     // file
-    START_OF_FILE,
-    END_OF_FILE,
+    START_OF_FILE, // done tested
+    END_OF_FILE, // done tested
 
-    // literals
-    STRING_LITERAL,
-    INTEGER_LITERAL,
-    FLOAT_LITERAL,
-    BOOLEAN_LITERAL,
+    // EXPRESSION
+    IDENTIFIER, // done tested
 
-    // expressions
-    IDENTIFIER,
+    // LITERAL
+    STRING_LITERAL, // done tested
+    INTEGER_LITERAL, // done tested
+    FLOAT_LITERAL, // done tested
+    BOOLEAN_LITERAL, //done tested
 
-    // other
-    ASSIGN,
+    // BINARY_OPERATOR
+    ADD,
+    SUBTRACT,
+    MULTIPLY,
+    DIVIDE,
+    POWER,
+    EQUAL,
+    NOT_EQUAL,
+    LESS_THAN_OR_EQUAL,
+    GRATER_THAN_OR_EUQAL,
+    LESS_THAN,
+    GRATER_THAN,
+    LOGICAL_AND,
+    LOGICAL_OR,
+    LEFT_SHIFT,
+    RIGHT_SHIFT,
+    BITWISE_XOR,
+    BITWISE_AND,
+    BITWISE_OR,
+
+    // UNARY_OPERATOR
+    NOT,
+
+    // MISC
+    COMMA, // done tested
+    LEFT_PARENTHASIS, // done tested
+    RIGHT_PARENTHASIS, // done tested
+    LEFT_CURLY_PARENTHASIS, // done tested
+    RIGHT_CURLY_PARENTHASIS, // done tested
+    ASSIGN, // done tested
+    SEMI_COLON, // done tested
+
+    // CONDITIONAL
+    IF, // done tested
+    ELSE, // done tested
+
+    // LOOP
+    WHILE, // done tested
+    FOR, // done tested
+    IN, // done tested
 };
 
 struct token {

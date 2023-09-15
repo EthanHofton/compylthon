@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "tokens.hpp"
+#include "errors.hpp"
 
 namespace cpy {
 
@@ -27,6 +28,32 @@ public:
     */
     [[nodiscard]] std::vector<token> tokenize();
 
+    /**
+    * @brief prints the errors from the error handler
+    *
+    * @param t_out the output stream to print to
+    */
+    inline void print_errors(std::ostream& t_out = std::cerr) { m_error_handler.print_errors(t_out); }
+
+    /**
+    * @brief clears the errors from the error handler
+    */
+    inline void clear_errors() { m_error_handler.clear_errors(); }
+
+    /**
+    * @brief returns the errors from the error handler
+    *
+    * @return std::vector<error> the errors
+    */
+    [[nodiscard]] inline std::vector<error> get_errors() const { return m_error_handler.get_errors(); }
+
+    /**
+    * @brief returns whether or not the error handler has errors
+    *
+    * @return bool whether or not the error handler has errors
+    */
+    [[nodiscard]] inline bool has_errors() const { return m_error_handler.has_errors(); }
+
 private:
 
     std::optional<char> peek(int offset = 0);
@@ -38,8 +65,14 @@ private:
 
     std::string m_src;
     size_t m_pos = 0;
+
     size_t m_line_num = 0;
     size_t m_line_offset = 0;
+
+    size_t m_token_start_line_num = 0;
+    size_t m_token_start_line_offset = 0;
+
+    error_handler m_error_handler;
 };
 
 } // namespace cpy
