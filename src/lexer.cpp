@@ -25,12 +25,7 @@ std::vector<token> lexer::tokenize() {
             // number literal
             tokens.push_back(parse_number_literal(buf));
             continue;
-        } else if (peek().value() == '=') {
-            // assignment
-            tokens.push_back({ token_type::ASSIGN, m_line_num, m_line_offset });
-            consume();
-            continue;
-        } else if (peek().value() == '(') {
+        }  else if (peek().value() == '(') {
             // left bracket
             tokens.push_back({ token_type::LEFT_PARENTHASIS, m_line_num, m_line_offset });
             consume();
@@ -58,6 +53,51 @@ std::vector<token> lexer::tokenize() {
         } else if (peek().value() == ';') {
             // semi colon 
             tokens.push_back({ token_type::SEMI_COLON, m_line_num, m_line_offset });
+            consume();
+            continue;
+        } else if (peek().value() == '+') {
+            tokens.push_back({ token_type::ADD, m_line_num, m_line_offset });
+            consume();
+            continue;
+        } else if (peek().value() == '-') {
+            tokens.push_back({ token_type::SUBTRACT, m_line_num, m_line_offset });
+            consume();
+            continue;
+        } else if (peek().value() == '*') {
+            // **, *
+            tokens.push_back(parse_star(buf));
+            continue;
+        } else if (peek().value() == '/') {
+            tokens.push_back({ token_type::DIVIDE, m_line_num, m_line_offset });
+            consume();
+            continue;
+        } else if (peek().value() == '=') {
+            // =, ==
+            tokens.push_back(parse_equal(buf));
+            continue;
+        } else if (peek().value() == '!') {
+            // !, !=
+            tokens.push_back(parse_explination_mark(buf));
+            continue;
+        } else if (peek().value() == '<') {
+            // <, <=, <<
+            tokens.push_back(parse_less_than(buf));
+            continue;
+        } else if (peek().value() == '>') {
+            // >, >=, >>
+            tokens.push_back(parse_grater_than(buf));
+            continue;
+        } else if (peek().value() == '&') {
+            // &, &&
+            tokens.push_back(parse_and(buf));
+            continue;
+        } else if (peek().value() == '|') {
+            // |, ||
+            tokens.push_back(parse_or(buf));
+            continue;
+        } else if (peek().value() == '^') {
+            // ^
+            tokens.push_back({ token_type::BITWISE_XOR, m_line_num, m_line_offset });
             consume();
             continue;
         } else if (peek().value() == '\n') {
@@ -202,6 +242,154 @@ token lexer::parse_string_literal(std::string& buf) {
     consume();
 
     token t = { token_type::STRING_LITERAL, m_token_start_line_num, m_token_start_line_offset, buf };
+    buf.clear();
+    return t;
+}
+
+
+token lexer::parse_equal(std::string& buf) {
+    m_token_start_line_num = m_line_num;
+    m_token_start_line_offset = m_line_offset; 
+
+    token_type type = token_type::ASSIGN;
+
+    // consume the first =
+    consume();
+
+    if (peek().has_value() && peek().value() == '=') {
+        // ==
+        type = token_type::EQUAL;
+        consume();
+    }
+
+    token t = { type, m_token_start_line_num, m_token_start_line_offset };
+    buf.clear();
+    return t;
+}
+
+token lexer::parse_star(std::string& buf) {
+    m_token_start_line_num = m_line_num;
+    m_token_start_line_offset = m_line_offset; 
+
+    token_type type = token_type::MULTIPLY;
+
+    // consume the first *
+    consume();
+
+    if (peek().has_value() && peek().value() == '*') {
+        // **
+        type = token_type::POWER;
+        consume();
+    }
+
+    token t = { type, m_token_start_line_num, m_token_start_line_offset };
+    buf.clear();
+    return t;
+}
+token lexer::parse_explination_mark(std::string& buf) {
+    m_token_start_line_num = m_line_num;
+    m_token_start_line_offset = m_line_offset; 
+
+    token_type type = token_type::NOT;
+
+    // consume the first !
+    consume();
+
+    if (peek().has_value() && peek().value() == '=') {
+        // !=
+        type = token_type::NOT_EQUAL;
+        consume();
+    }
+
+    token t = { type, m_token_start_line_num, m_token_start_line_offset };
+    buf.clear();
+    return t;
+}
+
+token lexer::parse_less_than(std::string& buf) {
+    m_token_start_line_num = m_line_num;
+    m_token_start_line_offset = m_line_offset; 
+
+    token_type type = token_type::LESS_THAN;
+
+    // consume the first < 
+    consume();
+
+    if (peek().has_value() && peek().value() == '<') {
+        // <<
+        type = token_type::LEFT_SHIFT;
+        consume();
+    } else if (peek().has_value() && peek().value() == '=') {
+        // <=
+        type = token_type::LESS_THAN_OR_EQUAL; 
+        consume();
+    }
+
+    token t = { type, m_token_start_line_num, m_token_start_line_offset };
+    buf.clear();
+    return t;
+}
+
+token lexer::parse_grater_than(std::string& buf) {
+    m_token_start_line_num = m_line_num;
+    m_token_start_line_offset = m_line_offset; 
+
+    token_type type = token_type::GRATER_THAN;
+
+    // consume the first >
+    consume();
+
+    if (peek().has_value() && peek().value() == '>') {
+        // >>
+        type = token_type::RIGHT_SHIFT;
+        consume();
+    } else if (peek().has_value() && peek().value() == '=') {
+        // >= 
+        type = token_type::GRATER_THAN_OR_EUQAL;
+        consume();
+    }
+
+    token t = { type, m_token_start_line_num, m_token_start_line_offset };
+    buf.clear();
+    return t;
+}
+
+token lexer::parse_and(std::string& buf) {
+    m_token_start_line_num = m_line_num;
+    m_token_start_line_offset = m_line_offset; 
+
+    token_type type = token_type::BITWISE_AND;
+
+    // consume the first &
+    consume();
+
+    if (peek().has_value() && peek().value() == '&') {
+        // &&
+        type = token_type::LOGICAL_AND;
+        consume();
+    }
+
+    token t = { type, m_token_start_line_num, m_token_start_line_offset };
+    buf.clear();
+    return t;
+}
+
+token lexer::parse_or(std::string& buf) {
+    m_token_start_line_num = m_line_num;
+    m_token_start_line_offset = m_line_offset; 
+
+    token_type type = token_type::BITWISE_OR;
+
+    // consume the first |
+    consume();
+
+    if (peek().has_value() && peek().value() == '|') {
+        // ||
+        type = token_type::LOGICAL_OR;
+        consume();
+    }
+
+    token t = { type, m_token_start_line_num, m_token_start_line_offset };
     buf.clear();
     return t;
 }

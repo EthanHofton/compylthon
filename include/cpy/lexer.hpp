@@ -62,6 +62,14 @@ private:
     token parse_number_literal(std::string& buf);
     token parse_string_literal(std::string& buf);
     token parse_keyword_or_identifer_literal(std::string& buf);
+    token parse_equal(std::string& buf);
+    token parse_star(std::string& buf);
+    token parse_explination_mark(std::string& buf);
+    token parse_less_than(std::string& buf);
+    token parse_grater_than(std::string& buf);
+    token parse_and(std::string& buf);
+    token parse_or(std::string& buf);
+    
 
     std::string m_src;
     size_t m_pos = 0;

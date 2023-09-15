@@ -944,6 +944,572 @@ TEST(TestLexer, TestTokenizeSemiColon) {
     ASSERT_EQ(tokens[2].line_offset, 1);
 }
 
+TEST(TestLexer, TestTokenizeAdd) {
+    std::string prog = "+";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::ADD);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+}
+
+TEST(TestLexer, TestTokenizeSubtract) {
+    std::string prog = "-";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::SUBTRACT);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+}
+
+TEST(TestLexer, TestTokenizeMultiply) {
+    std::string prog = "*";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::MULTIPLY);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+}
+
+TEST(TestLexer, TestTokenizeDivide) {
+    std::string prog = "/";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::DIVIDE);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+}
+
+TEST(TestLexer, TestTokenizePower) {
+    std::string prog = "**";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::POWER);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 2);
+}
+
+TEST(TestLexer, TestTokenizeEqual) {
+    std::string prog = "==";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::EQUAL);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 2);
+}
+
+TEST(TestLexer, TestTokenizeNotEqual) {
+    std::string prog = "!=";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::NOT_EQUAL);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 2);
+}
+
+TEST(TestLexer, TestTokenizeLessThanOrEqual) {
+    std::string prog = "<=";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::LESS_THAN_OR_EQUAL);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 2);
+}
+
+TEST(TestLexer, TestTokenizeGraterThanOrEqual) {
+    std::string prog = ">=";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::GRATER_THAN_OR_EUQAL);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 2);
+}
+
+TEST(TestLexer, TestTokenizeLessThan) {
+    std::string prog = "<";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::LESS_THAN);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+}
+
+TEST(TestLexer, TestTokenizeGraterThan) {
+    std::string prog = ">";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::GRATER_THAN);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+}
+
+TEST(TestLexer, TestTokenizeLogicalAnd) {
+    std::string prog = "&&";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::LOGICAL_AND);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 2);
+}
+
+TEST(TestLexer, TestTokenizeLogicalOr) {
+    std::string prog = "||";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::LOGICAL_OR);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 2);
+}
+
+TEST(TestLexer, TestTokenizeLeftShift) {
+    std::string prog = "<<";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::LEFT_SHIFT);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 2);
+}
+
+TEST(TestLexer, TestTokenizeRightShift) {
+    std::string prog = ">>";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::RIGHT_SHIFT);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 2);
+}
+
+TEST(TestLexer, TestTokenizeBitwiseXor) {
+    std::string prog = "^";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::BITWISE_XOR);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+}
+
+TEST(TestLexer, TestTokenizeBitwiseAnd) {
+    std::string prog = "&";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::BITWISE_AND);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+}
+
+TEST(TestLexer, TestTokenizeBitwiseOr) {
+    std::string prog = "|";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::BITWISE_OR);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+}
+
+TEST(TestLexer, TestTokenizeTestNot) {
+    std::string prog = "!";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 3);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::NOT);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+}
+
+TEST(TestLexer, TestTokenizeTestNotPrefix) {
+    std::string prog = "!var1";
+
+    lexer l(prog);
+    auto tokens = l.tokenize();
+
+    l.print_errors(std::cerr);
+
+    ASSERT_FALSE(l.has_errors());
+
+    ASSERT_EQ(tokens.size(), 4);
+
+    ASSERT_EQ(tokens[0].type, token_type::START_OF_FILE);
+    ASSERT_FALSE(tokens[0].value.has_value());
+    ASSERT_EQ(tokens[0].line_number, 0);
+    ASSERT_EQ(tokens[0].line_offset, 0);
+
+    ASSERT_EQ(tokens[1].type, token_type::NOT);
+    ASSERT_FALSE(tokens[1].value.has_value());
+    ASSERT_EQ(tokens[1].line_number, 0);
+    ASSERT_EQ(tokens[1].line_offset, 0);
+
+    ASSERT_EQ(tokens[2].type, token_type::IDENTIFIER);
+    ASSERT_TRUE(tokens[2].value.has_value());
+    ASSERT_EQ(tokens[2].value, "var1");
+    ASSERT_EQ(tokens[2].line_number, 0);
+    ASSERT_EQ(tokens[2].line_offset, 1);
+
+    ASSERT_EQ(tokens[3].type, token_type::END_OF_FILE);
+    ASSERT_FALSE(tokens[3].value.has_value());
+    ASSERT_EQ(tokens[3].line_number, 0);
+    ASSERT_EQ(tokens[3].line_offset, 5);
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

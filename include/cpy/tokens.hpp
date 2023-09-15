@@ -23,27 +23,27 @@ enum class token_type
     BOOLEAN_LITERAL, //done tested
 
     // BINARY_OPERATOR
-    ADD,
-    SUBTRACT,
-    MULTIPLY,
-    DIVIDE,
-    POWER,
-    EQUAL,
-    NOT_EQUAL,
-    LESS_THAN_OR_EQUAL,
-    GRATER_THAN_OR_EUQAL,
-    LESS_THAN,
-    GRATER_THAN,
-    LOGICAL_AND,
-    LOGICAL_OR,
-    LEFT_SHIFT,
-    RIGHT_SHIFT,
-    BITWISE_XOR,
-    BITWISE_AND,
-    BITWISE_OR,
+    ADD, // + done tested
+    SUBTRACT, // - done tested
+    MULTIPLY, // * done tested
+    DIVIDE, // / done tested
+    POWER, // ** done tested
+    EQUAL, // == done tested
+    NOT_EQUAL, // != done tested
+    LESS_THAN_OR_EQUAL, // <= done tested
+    GRATER_THAN_OR_EUQAL, // >= done tested
+    LESS_THAN, // < done tested
+    GRATER_THAN, // > done tested
+    LOGICAL_AND, // && done tested
+    LOGICAL_OR, // || done tested
+    LEFT_SHIFT, // << done tested
+    RIGHT_SHIFT, // >> done tested
+    BITWISE_XOR, // ^ done tested
+    BITWISE_AND, // & done tested
+    BITWISE_OR, // | done tested
 
     // UNARY_OPERATOR
-    NOT,
+    NOT, // ! done tested
 
     // MISC
     COMMA, // done tested
