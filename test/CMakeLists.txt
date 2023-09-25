@@ -22,3 +22,8 @@ add_executable(test_lexer test_lexer.cpp ${CMAKE_SOURCE_DIR}/src/lexer.cpp)
 target_link_libraries(test_lexer PRIVATE GTest::GTest)
 target_include_directories(test_lexer PRIVATE ${CMAKE_SOURCE_DIR}/include)
 add_test(NAME test_lexer_gtest COMMAND test_lexer WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+
+add_executable(test_parser test_parser.cpp ${CMAKE_SOURCE_DIR}/src/parser.cpp)
+target_link_libraries(test_parser PRIVATE GTest::GTest)
+target_include_directories(test_parser PRIVATE ${CMAKE_SOURCE_DIR}/include)
+add_test(NAME test_parser_gtest COMMAND test_parser WORKING_DIRECTORY ${CMAKE_BINARY_DIR})

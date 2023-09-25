@@ -33,7 +33,7 @@ public:
     *
     * @param t_out the output stream to print to
     */
-    inline void print_errors(std::ostream& t_out = std::cerr) { m_error_handler.print_errors(t_out); }
+    inline void print_errors(std::ostream& t_out = std::cerr) const { m_error_handler.print_errors(t_out); }
 
     /**
     * @brief clears the errors from the error handler

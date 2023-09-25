@@ -4,6 +4,7 @@ set(EXE_NAME "cpy")
 set(SOURCES
     cpy.cpp
     lexer.cpp
+    parser.cpp
 )
 # ============================================
 
