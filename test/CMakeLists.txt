@@ -27,3 +27,8 @@ add_executable(test_parser test_parser.cpp ${CMAKE_SOURCE_DIR}/src/parser.cpp)
 target_link_libraries(test_parser PRIVATE GTest::GTest)
 target_include_directories(test_parser PRIVATE ${CMAKE_SOURCE_DIR}/include)
 add_test(NAME test_parser_gtest COMMAND test_parser WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+
+add_executable(test_transaction_manager test_transaction_manager.cpp)
+target_link_libraries(test_transaction_manager PRIVATE GTest::GTest)
+target_include_directories(test_transaction_manager PRIVATE ${CMAKE_SOURCE_DIR}/include)
+add_test(NAME test_transaction_manager_gtest COMMAND test_transaction_manager WORKING_DIRECTORY ${CMAKE_BINARY_DIR})

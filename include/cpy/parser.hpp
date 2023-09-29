@@ -2,10 +2,12 @@
 #define __CPY_PARSER_HPP__
 
 #include <vector>
+#include <stack>
 
 #include "tokens.hpp"
 #include "grammar_tree.hpp"
 #include "errors.hpp"
+#include "transaction.hpp"
 
 namespace cpy {
 
@@ -54,6 +56,7 @@ public:
 
 private:
 
+    std::optional<NodeProgram> parse_program();
     std::optional<NodeScope> parse_scope(bool require_curlys = true);
     std::optional<NodeStatment> parse_statment();
     std::optional<NodeExpression> parse_expression();
@@ -65,14 +68,13 @@ private:
     std::optional<NodeLiteralBoolean> parse_literal_boolean();
     std::optional<NodeLiteralString> parse_literal_string();
 
-
     bool expect(token_type t_type);
 
     std::optional<token> peek(int offset = 0) const;
     std::optional<token> consume();
 
     std::vector<token> m_tokens;
-    size_t m_pos = 0;
+    transaction_manager m_transaction_manager;
 
     error_handler m_error_handler;
 
